@@ -1,0 +1,13 @@
+---
+import Layout from "$layouts/BlogPost.astro";
+// @ts-ignore
+import AboutContent from "../../content/other/about.typ?html&body";
+---
+
+<Layout
+  id={false}
+  title="About me"
+  description="Things about Niklas Paulicks"
+>
+  <AboutContent />
+</Layout>

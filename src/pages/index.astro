@@ -1,0 +1,154 @@
+---
+import { getCollection } from "astro:content";
+
+import { TagList } from "@myriaddreamin/tylant";
+
+import BaseHead from "$components/BaseHead.astro";
+import Header from "$components/Header.astro";
+import Footer from "$components/Footer.astro";
+import FormattedDate from "$components/FormattedDate.astro";
+
+import {
+  kSiteTitle,
+  kSiteIndexTitle,
+  kSiteDescription,
+  kUrlBase,
+  kBaiduVeriCode,
+} from "$consts";
+
+import "$styles/IndexPostList.css";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const recent5Posts = posts.slice(0, 5);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={kSiteTitle} description={kSiteDescription} />
+    <!-- Baidu -->
+    {
+      kBaiduVeriCode && (
+        <meta name="baidu-site-verification" content={kBaiduVeriCode} />
+      )
+    }
+
+    <style>
+      .intro {
+        display: grid;
+        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+        align-items: center;
+        gap: 2.5em;
+        margin-bottom: 3em;
+      }
+      .intro h1 {
+        margin-bottom: 0.4em;
+      }
+      .placeholder {
+        color: var(--gray-color);
+        font-style: italic;
+        margin-block: 1em;
+        padding-left: 0.85em;
+        border-left: 2.5px solid var(--accent);
+      }
+      .portrait {
+        margin: 0;
+        text-align: center;
+      }
+      .portrait img {
+        display: block;
+        width: 100%;
+        max-width: 16rem;
+        aspect-ratio: 1;
+        margin: 0 auto;
+        object-fit: cover;
+        border: 3px solid var(--accent);
+        border-radius: 50%;
+        background: var(--raw-bg-color);
+      }
+      .portrait figcaption {
+        margin-top: 0.6em;
+        color: var(--gray-color);
+        font-size: 0.9em;
+      }
+      @media (max-width: 720px) {
+        .intro {
+          grid-template-columns: 1fr;
+          gap: 1.5em;
+        }
+        .portrait img {
+          max-width: 13rem;
+        }
+      }
+      .comments a {
+        display: inline-block;
+      }
+      @media (max-width: 600px) {
+        .posts .heading {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+      .comment-item {
+        background-color: var(--main-bg-color);
+      }
+      .monthly li {
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="intro" aria-label="Prelude">
+        <div class="intro-copy">
+          <h1 set:html={kSiteIndexTitle} />
+          <p class="placeholder">
+            Ph.D. researcher at the <a href="https://www.chemie.uni-hamburg.de/en/institute/ac/toelle.html">Tölle Research Group</a> based in Hamburg, Germany.  Mainly focused on accellerating electronic structure calculations by employing advanced tensor decomposition techniques.  Blogging about all things science, programming and maths. Free time Lindy Hop dancer and instructor. 
+          </p>
+          <p>
+            <a href={`${kUrlBase}/about/`}>Read more about me →</a>
+          </p>
+        </div>
+        <figure class="portrait">
+          <!--
+            Replace public/profile-placeholder.svg with a photo of yourself,
+            or change the src below to point to your own image.
+          -->
+          <img
+            src={`${kUrlBase}/profile.jpg`}
+            alt="Portrait of Niklas Paulicks"
+            width="512"
+            height="512"
+          />
+          <!--<figcaption>Fig. 1: Me</figcaption>-->
+        </figure>
+      </section>
+      <section aria-label="Recent Posts">
+        <h2>Recent Posts</h2>
+        <ul class="accent block-list posts">
+          {
+            recent5Posts.map((post) => (
+              <li>
+                <a class="heading" href={`${kUrlBase}/article/${post.id}/`}>
+                  <h2>
+                    <span class="title">{post.data.title}</span>
+                  </h2>
+                  <span class="date">
+                    <FormattedDate date={post.data.date} />
+                  </span>
+                </a>
+                {post.data.tags && <TagList tags={post.data.tags} />}
+                {post.data.description || ""}
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>

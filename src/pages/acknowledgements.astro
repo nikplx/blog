@@ -1,0 +1,23 @@
+---
+import Layout from "$layouts/BlogPost.astro";
+---
+
+<Layout
+  id={false}
+  title="Acknowledgements"
+  description="Acknowledgements for the tools and people behind this website"
+>
+  <p>
+    This blog is built with <a href="https://typst.app/">Typst</a>, a modern
+    markup-based typesetting system, and <a
+      href="https://github.com/Myriad-Dreamin/tylant">Tylant</a
+    >, which provides the rendering engine that integrates Typst with Astro.
+  </p>
+
+  <p>
+    Many thanks to <a href="https://github.com/Myriad-Dreamin"
+      >Myriad Dreamin</a
+    > for creating and maintaining Tylant, Typst's HTML export tooling, and the
+    broader Typst ecosystem that makes this site possible.
+  </p>
+</Layout>

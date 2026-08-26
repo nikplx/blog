@@ -1,49 +1,28 @@
-# Collection of Typst Code
+# blog
 
-- [packages](./packages): Packages for Typst
-- [templates](./templates): Templates for Typst
-- [examples](./examples): Examples
-- [tests](./tests): Examples
+Source for [Niklas Paulicks'](https://blog.paulicks.com) personal blog: posts on electronic
+structure theory, tensor decompositions, and programming, plus a few static pages (about,
+publications, acknowledgements).
 
-## Code Conventions
+Built with [Astro](https://astro.build/), rendering articles from [Typst](https://typst.app/)
+via [Tylant](https://github.com/Myriad-Dreamin/tylant). See [Acknowledgements](https://blog.paulicks.com/blog/acknowledgements/)
+for credits.
 
-- Prefer to use relative imports in Typst files, because this repository may be used as a git submodule in other repositories.
-
-## Dependency Management
-
-The external dependencies could be managed through creating modules in `pacakges`. For example, if you would like to use `zebraw` package. You could create a module in `packages/zebraw.typ`:
-
-```typ
-#import "@preview/zebraw.typ:0.5.4": zebraw-init, zebraw
-```
-
-If you would like to contribute to `zebraw` package. You could add `zebraw` as a git submodule at `packages/zebraw`, and change the import to:
-
-```typ
-// #import "@preview/zebraw.typ:0.5.4": *
-#import "zebraw/src/lib.typ": zebraw-init, zebraw
-```
-
-The remaining things keep no change.
-
-Creating modules in `packages` is not required unless you would like to use a git dependency of some package in the above way.
-
-## Using with Git
-
-To integrate this repository into your own Typst project, you can add it as a submodule:
+## Development
 
 ```bash
-git submodule add https://github.com/Myriad-Dreamin/typ.git
+pnpm install
+pnpm dev       # local dev server
+pnpm build     # static build to dist/
+pnpm preview   # preview the production build
 ```
 
-You could fork and modify this repository, and then add it as a submodule in your own Typst project:
+New posts can be scaffolded with `pnpm create:post`.
 
-```bash
-git rm --cached typ && rm -rf ./typ
-git submodule add -b YOUR-BRANCH-NAME https://github.com/YOUR-NAME/typ.git
-```
+## Deployment
 
-This gives opportunity to merge efforts together in future.
+Pushes to `main` are built and deployed to Cloudflare Pages via
+[`.github/workflows/cloudflare-pages.yml`](.github/workflows/cloudflare-pages.yml).
 
 ## License
 

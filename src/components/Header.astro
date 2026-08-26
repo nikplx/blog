@@ -1,0 +1,94 @@
+---
+import { kUrlBase } from "$consts";
+
+import faviconUrl from "../assets/favicon.svg?url";
+import HeaderLink from "./HeaderLink.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+
+interface Props {
+  articleId?: string;
+}
+
+const { articleId } = Astro.props;
+---
+
+<header>
+  <nav>
+    <a class="logo" href={`${kUrlBase}/`} aria-label="Niklas Paulicks — Home">
+      <img src={faviconUrl} alt="" />
+      <span>iklas Paulicks</span>
+    </a>
+    <div class="internal-links">
+      <HeaderLink href={`${kUrlBase}/article`}>Posts</HeaderLink>
+      <HeaderLink href={`${kUrlBase}/publication`}>Publications</HeaderLink>
+      <HeaderLink href={`${kUrlBase}/about`}>About Me</HeaderLink>
+    </div>
+    <div class="social-links">
+      <ThemeToggle />
+    </div>
+  </nav>
+</header>
+<style>
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.25em;
+    font-weight: 700;
+  }
+  .logo:hover {
+    text-decoration: none;
+  }
+  .logo span {
+    white-space: nowrap;
+  }
+  .logo img {
+    display: block;
+    height: 1.7em;
+    width: auto;
+    border-radius: 0.25em;
+  }
+  header {
+    margin: 0;
+    padding: 0 1em;
+    background: var(--nav-bg-color);
+    box-shadow: 0 2px 8px rgba(var(--black), 5%);
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: min(56rem, calc(100% - 2em));
+    margin: auto;
+  }
+  nav a {
+    padding: 1em 0.5em;
+    border-bottom: 2px solid transparent;
+    text-decoration: none;
+  }
+  nav a.active {
+    text-decoration: none;
+    border-bottom-color: var(--accent);
+  }
+  .social-links,
+  .social-links a {
+    display: flex;
+  }
+  .social-links {
+    align-items: center;
+    gap: 0.6em;
+  }
+  @media (max-width: 400px) {
+    nav {
+      font-size: 14px;
+    }
+  }
+  @media (max-width: 370px) {
+    .internal-links {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .internal-links a {
+      flex: 1 0 70px;
+    }
+  }
+</style>
