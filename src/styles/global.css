@@ -13,6 +13,7 @@
   --gray-color: #6d6d6d;
   --accent: #d3006a;
   --accent-dark: #d30069b3;
+  --header-bg-color: #edf4f4;
   --black: #0f1219;
 }
 
@@ -25,6 +26,7 @@
   --nav-bg-color: #212737;
   --accent: #cf829e;
   --accent-dark: #cf829eb3;
+  --header-bg-color: #191e2a;
 }
 
 body {
