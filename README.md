@@ -5,7 +5,7 @@ structure theory, tensor decompositions, and programming, plus a few static page
 publications, acknowledgements).
 
 Built with [Astro](https://astro.build/), rendering articles from [Typst](https://typst.app/)
-via [Tylant](https://github.com/Myriad-Dreamin/tylant). See [Acknowledgements](https://blog.paulicks.com/blog/acknowledgements/)
+via [Tylant](https://github.com/Myriad-Dreamin/tylant). See [Acknowledgements](https://blog.paulicks.com/acknowledgements/)
 for credits.
 
 ## Development
@@ -21,8 +21,8 @@ New posts can be scaffolded with `pnpm create:post`.
 
 ## Deployment
 
-Pushes to `main` are built and deployed to Cloudflare Pages via
-[`.github/workflows/cloudflare-pages.yml`](.github/workflows/cloudflare-pages.yml).
+The repo is connected to Cloudflare Pages via its GitHub integration. Pushes to
+`main` build and deploy automatically; other branches/PRs get preview deployments.
 
 ## License
 
