@@ -13,18 +13,38 @@ const { articleId } = Astro.props;
 ---
 
 <header>
-  <nav>
+  <nav class="site-nav">
     <a class="logo" href={`${kUrlBase}/`} aria-label="Niklas Paulicks — Home">
       <img src={faviconUrl} alt="" />
       <span>iklas Paulicks</span>
     </a>
-    <div class="internal-links">
-      <HeaderLink href={`${kUrlBase}/article`}>Posts</HeaderLink>
-      <HeaderLink href={`${kUrlBase}/publication`}>Publications</HeaderLink>
-      <HeaderLink href={`${kUrlBase}/about`}>About Me</HeaderLink>
-    </div>
-    <div class="social-links">
-      <ThemeToggle />
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="header-menu"
+    >
+      <span class="menu-bars" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+    <div class="header-menu" id="header-menu">
+      <div class="internal-links">
+        <HeaderLink href={`${kUrlBase}/article`}>Posts</HeaderLink>
+        <HeaderLink href={`${kUrlBase}/publication`}>Publications</HeaderLink>
+        <HeaderLink href={`${kUrlBase}/about`}>About Me</HeaderLink>
+      </div>
+      <div class="social-links">
+        <ThemeToggle />
+      </div>
+      <div class="menu-extra-links">
+        <a href={`${kUrlBase}/acknowledgements/`}>Acknowledgements</a>
+        <a href={`${kUrlBase}/impressum/`}>Impressum</a>
+        <a href={`${kUrlBase}/privacy/`}>Privacy Policy</a>
+      </div>
     </div>
   </nav>
 </header>
@@ -33,6 +53,7 @@ const { articleId } = Astro.props;
     display: flex;
     align-items: center;
     gap: 0.25em;
+    padding-left: 1em;
     font-weight: 700;
   }
   .logo:hover {
@@ -48,6 +69,8 @@ const { articleId } = Astro.props;
     border-radius: 0.25em;
   }
   header {
+    position: relative;
+    z-index: 40;
     margin: 0;
     padding: 0 1em;
     background: var(--nav-bg-color);
@@ -69,6 +92,13 @@ const { articleId } = Astro.props;
     text-decoration: none;
     border-bottom-color: var(--accent);
   }
+  .header-menu {
+    display: contents;
+  }
+  .menu-toggle,
+  .menu-extra-links {
+    display: none;
+  }
   .social-links,
   .social-links a {
     display: flex;
@@ -77,18 +107,119 @@ const { articleId } = Astro.props;
     align-items: center;
     gap: 0.6em;
   }
-  @media (max-width: 400px) {
+  @media (max-width: 720px) {
     nav {
-      font-size: 14px;
+      position: relative;
+      padding: 0.6em 0;
     }
-  }
-  @media (max-width: 370px) {
+    .logo {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    .menu-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5em;
+      border: none;
+      background: none;
+      color: var(--main-color);
+      cursor: pointer;
+    }
+    .menu-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .menu-bars span {
+      display: block;
+      width: 1.4em;
+      height: 2px;
+      border-radius: 1px;
+      background: currentColor;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .menu-open .menu-bars span:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+    .menu-open .menu-bars span:nth-child(2) {
+      opacity: 0;
+    }
+    .menu-open .menu-bars span:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+    .header-menu {
+      display: none;
+    }
+    .menu-open .header-menu {
+      position: absolute;
+      top: 100%;
+      right: -1em;
+      left: -1em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      padding: 0.5em 1em 1em;
+      background: var(--nav-bg-color);
+      border-top: 1px solid var(--raw-bg-color);
+      box-shadow: 0 8px 16px rgba(var(--black), 12%);
+    }
     .internal-links {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
     }
     .internal-links a {
-      flex: 1 0 70px;
+      padding: 0.75em 0.25em;
+    }
+    .social-links {
+      padding-top: 0.75em;
+      border-top: 1px solid var(--raw-bg-color);
+      justify-content: flex-start;
+    }
+    .menu-open .menu-extra-links {
+      display: flex;
+      flex-direction: column;
+      padding-top: 0.5em;
+      border-top: 1px solid var(--raw-bg-color);
+    }
+    .menu-extra-links a {
+      padding: 0.5em 0.25em;
+      border-bottom: none;
+      font-size: 0.9em;
+      color: var(--gray-color);
     }
   }
 </style>
+
+<script>
+  const siteNav = document.querySelector<HTMLElement>(".site-nav");
+  const menuToggle = siteNav?.querySelector<HTMLButtonElement>(".menu-toggle");
+
+  if (siteNav && menuToggle) {
+    const setOpen = (open: boolean) => {
+      siteNav.classList.toggle("menu-open", open);
+      menuToggle.setAttribute("aria-expanded", String(open));
+      menuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    };
+
+    menuToggle.addEventListener("click", () => {
+      setOpen(!siteNav.classList.contains("menu-open"));
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!siteNav.contains(event.target as Node)) setOpen(false);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setOpen(false);
+    });
+
+    siteNav.querySelectorAll(".header-menu a").forEach((link) => {
+      link.addEventListener("click", () => setOpen(false));
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 720) setOpen(false);
+    });
+  }
+</script>

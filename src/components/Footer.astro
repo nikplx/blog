@@ -31,9 +31,6 @@ const today = new Date();
         </span>
         RSS
       </a>
-      <a href={`${kUrlBase}/acknowledgements/`}>Acknowledgements</a>
-      <a href={`${kUrlBase}/impressum/`}>Impressum</a>
-      <a href={`${kUrlBase}/privacy/`}>Privacy Policy</a>
     </nav>
   </div>
 </footer>
@@ -55,7 +52,7 @@ const today = new Date();
   }
   .footer-inner {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
     gap: 0.15em 1.25em;
@@ -64,7 +61,7 @@ const today = new Date();
   }
   .footer-links {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-end;
     gap: 0.15em 1em;
