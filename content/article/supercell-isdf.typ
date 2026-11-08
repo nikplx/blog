@@ -210,5 +210,4 @@ bold(C) &= bold(B) [bold(L)^T]^(-1) -> bold(L) bold(C)^T = bold(B)^T -> "solve f
 bold(Z) &= bold(C) bold(L)^(-1) -> bold(L) bold(Z)^T = bold(C)^T -> "solve for" bold(Z)\
 $
 
-Testing.
 
