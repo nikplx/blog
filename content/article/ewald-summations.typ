@@ -2,6 +2,8 @@
 #import "../../templates/env.typ": url-base
 #import "/typ/packages/physica.typ": *
 
+#set math.equation(supplement: [Eq.], numbering: "(1)")
+
 #show: main.with(
   title: "Ewald Summation",
   desc: [],
